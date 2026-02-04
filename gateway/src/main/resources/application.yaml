@@ -1,0 +1,27 @@
+# El contenedor escucha en el puerto 8080
+server:
+  port: 8080
+
+
+spring:
+  application:
+    name: gateway-service
+  # Utiliza el config server
+  config:
+    import: optional:configserver:
+  # Activa del descubrimiento de servicios
+  cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+        all-namespaces: false
+# Expone endpoints de liveness/readness para
+# las probes de k8s
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - RemoveRequestHeader=Cookie
+        - RemoveResponseHeader=Set-Cookie
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          "[/**]":
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates: [ Path=/auth/** ]
+          filters: [ StripPrefix=1 ]
+
+        - id: user-service
+          uri: lb://user-service
+          predicates: [ Path=/user/** ]
+          filters: [ StripPrefix=1 ]
+          
+        - id: public-service
+          uri: lb://public-service
+          predicates: [ Path=/public/** ]
+          filters: [ StripPrefix=1 ]

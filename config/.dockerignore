@@ -1,0 +1,23 @@
+# Ignorar carpetas y archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar configuraciones locales y específicas del desarrollador
+.idea/
+.vscode/
+*.iml
+
+# Ignorar dependencias del runtime local
+node_modules/
+target/
+build/
+
+# Ignorar Maven Wrapper binarios descargados
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignorar archivos temporales y de control de versiones
+.git/
+.gitignore
+
+# Ignorar archivos de log
+*.log
