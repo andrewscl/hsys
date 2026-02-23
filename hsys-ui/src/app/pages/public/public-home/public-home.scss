@@ -1,0 +1,69 @@
+@use 'abstracts/mixins' as *;
+@use 'abstracts/variables' as *;
+
+$topbar-height: 60px; // Altura de la barra superior para calcular el espacio disponible
+
+.home-wrapper {
+  overflow-x: hidden; // Evita scrolls laterales accidentales
+
+ // 1. SECCIÓN BLANCA
+  .hero-start {
+    display: flex;
+    align-items: center;
+    margin-top: $topbar-height;
+    min-height: calc(100vh - $topbar-height);
+
+    background-image: 
+    url("../../../../assets/images/gray-background-light.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center -200px;
+
+    .container {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 6vw, 80px);
+
+        .hero-start__text {
+          margin-bottom: 30px;
+          p {
+            margin-top: $space-md;
+            color: $text-secondary;
+            font-size: $fs-lg;
+          }
+        }
+    }
+  }
+
+  .section-divider {
+    @include section-spacing($space-5xl, 0.6, $color-white);
+  }
+
+  // 3. Sección tecnologica
+  .hero-dev {
+    position: relative;
+    overflow: hidden;
+    color: $color-white;
+    display: grid;
+    text-align: center;
+    align-items: center;
+    min-height: 80vh;
+
+    &__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("../../../../assets/images/technology-waves.svg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    &__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: $space-sm;
+    }
+  }
+
+}

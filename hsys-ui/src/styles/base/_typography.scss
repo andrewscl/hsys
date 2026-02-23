@@ -1,0 +1,37 @@
+  @use 'abstracts/variables' as * ;
+
+  body {
+    font-family: $font-primary;
+    font-size: $fs-md;
+    font-weight: $font-regular;
+    line-height: 1.6;
+    color: $text-primary;
+  }
+
+  h1 {
+    font-size: $fs-4xl;
+    font-weight: $font-bold;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: $fs-3xl;
+    font-weight: $font-semibold;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: $fs-2xl;
+    font-weight: $font-semibold;
+  }
+
+  p {
+    font-size: $fs-md;
+    line-height: 1.6;
+  }
+
+  .small {
+    font-size: $fs-sm;
+    color: $text-secondary;
+  }

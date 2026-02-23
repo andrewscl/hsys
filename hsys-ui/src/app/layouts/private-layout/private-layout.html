@@ -1,0 +1,25 @@
+<div class="private-layout">
+  <header class="private-header">
+    <app-private-topbar (toggleSidebar)="toggleSidebar()"></app-private-topbar>
+  </header>
+
+  <div class="layout-body">
+    <aside class="private-sidebar" *ngIf="showSidebar()">
+      <app-private-sidebar></app-private-sidebar>
+    </aside>
+
+    <main class="private-main" [class.sidebar-collapsed]="!showSidebar()">
+      <app-breadcrumbs></app-breadcrumbs>
+      
+      <app-loading-spinner *ngIf="isLoading()"></app-loading-spinner>
+      
+      <app-notifications></app-notifications>
+      
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <footer class="private-footer">
+    <app-private-footer></app-private-footer>
+  </footer>
+</div>

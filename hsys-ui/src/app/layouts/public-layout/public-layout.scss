@@ -1,0 +1,30 @@
+.public-layout {
+    //Configuracion del contenedor para flexbox vertical
+    display: flex;
+    flex-direction: column;
+    //Fuerza a que el layout ocupe toda la altura de la pantalla
+    min-height: 100vh;
+
+    .public-header {
+        // El header se mantiene arriba. 
+        // Si quieres que sea "Sticky" (que te siga al bajar), descomenta lo siguiente:
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .public-main {
+        // 4. El "flex-grow: 1" es el truco mágico. 
+        // Hace que el contenido principal se expanda para empujar el footer hacia abajo.
+        flex: 1 0 auto; 
+        // Esto asegura que no haya scroll horizontal accidental
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .public-footer {
+        // Evitamos que el footer se encoja
+        flex-shrink: 0;
+    }
+
+}

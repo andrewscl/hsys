@@ -1,0 +1,49 @@
+@use 'abstracts/variables' as *;
+
+.login-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-lg;
+  padding: 0 clamp(20px, 5vw, 80px);
+  text-align: center;
+
+  // Overlay blanco suave para look premium
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+  }
+
+  > * {
+    position: relative; // para quedar sobre el overlay
+    z-index: 1;
+  }
+
+  h3 {
+    margin-bottom: $space-sm;
+    color: $text-primary;
+    font-size: $fs-xl;
+  }
+
+  .login-links {
+    margin-top: $space-md;
+
+    a {
+      color: $color-secondary;
+      font-size: $fs-sm;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+}
+

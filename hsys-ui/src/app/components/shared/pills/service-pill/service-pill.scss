@@ -1,0 +1,46 @@
+$neon-cyan: #00f2ff;
+$text-dark: #2d3436;
+
+.pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &__icon-container {
+    width: 70px;
+    height: 70px;
+    background: #ffffff; // Fondo blanco sólido para que destaque
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $text-dark;
+    font-size: 1.8rem;
+    // Sombra muy suave para dar profundidad sobre el fondo blanco
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); 
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+  }
+
+  &__label {
+    color: $text-dark;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif; // O la que estés usando
+  }
+
+  // HOVER: Aquí es donde traemos el color neón de abajo hacia arriba
+  &:hover {
+    transform: translateY(-5px);
+    
+    .pill__icon-container {
+      background: $neon-cyan;
+      color: white;
+      box-shadow: 0 15px 30px rgba(0, 242, 255, 0.3); // Brillo cian
+      border-color: transparent;
+    }
+  }
+}

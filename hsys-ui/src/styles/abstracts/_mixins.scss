@@ -1,0 +1,32 @@
+@use 'variables' as * ;
+
+@mixin section-spacing (
+    $y: $space-3xl,
+    $mobile-scale: 0.6,
+    $background-color: $color-white
+) {
+    height: $y;
+    width: 100%;
+    background-color: $background-color;
+    
+    @media (max-width: 768px) {
+        height: ($y) * $mobile-scale;
+    }
+
+}
+
+@mixin section-spacing-line (
+    $y: $space-3xl,
+    $mobile-scale: 0.6,
+    $background-color: $color-white
+) {
+    height: $y;
+    width: 100%;
+    border-top: 1px solid #f1f3f5;
+    background-color: $background-color;
+    
+    @media (max-width: 768px) {
+        height: ($y) * $mobile-scale;
+    }
+
+}

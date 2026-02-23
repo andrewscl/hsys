@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'base/typography' as * ;
+
+// Reset global para eliminar los márgenes por defecto del navegador
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; // Esto ayuda a que el padding no afecte el ancho total
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}

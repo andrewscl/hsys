@@ -1,0 +1,133 @@
+// Variables de diseño para mantener consistencia
+$topbar-height: 60px;
+$accent-color: #0EA5E9; // Tu cian neón
+$text-main: #ffffff;
+$text-dim: #2C3E50;
+$bg-glass: white; // Fondo oscuro traslúcido
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $topbar-height;
+  background: $bg-glass;
+  backdrop-filter: blur(10px); // Efecto esmerilado
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+
+  &__container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // --- LOGO Y MARCA ---
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &-img {
+      height: 35px;
+      width: auto;
+    }
+  }
+
+  // --- MENÚ DE NAVEGACIÓN ---
+  &__menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1.5rem;
+
+    @media (max-width: 992px) {
+      display: none; // Aquí podrías implementar un menú hamburguesa luego
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $text-dim;
+    font-size: 0.9rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+
+    &-label {
+      // Un pequeño truco para que el texto no baile cuando se ponga en negrita
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      color: $accent-color;
+      text-shadow: 0 0 8px $accent-color(0, 242, 255, 0.5); 
+      // Brillo neón suave
+    }
+
+    // El indicador inferior para el link activo
+    &.is-active {
+      color: $accent-color;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: $accent-color;
+      }
+    }
+  }
+
+  // --- BOTÓN DE ACCESO ---
+  &__actions {
+    .btn-access {
+      background: transparent;
+      border: 1px solid $accent-color;
+      color: $accent-color;
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      
+      i {
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        background: $accent-color;
+        color: #ffffff;
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+  }
+}
