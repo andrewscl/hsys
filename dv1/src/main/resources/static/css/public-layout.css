@@ -1,0 +1,18 @@
+.public-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.public-layout .public-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.public-layout .public-main {
+  flex: 1 0 auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+.public-layout .public-footer {
+  flex-shrink: 0;
+}/*# sourceMappingURL=public-layout.css.map */

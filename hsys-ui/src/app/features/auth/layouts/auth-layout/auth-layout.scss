@@ -1,0 +1,46 @@
+@use 'abstracts/variables' as *;
+
+.auth-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url("../../../../../assets/images/gray-background-light.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  
+  .auth-header {
+    padding: 1rem;
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 10;
+
+    .auth-logo {
+      max-height: $topbar-height;
+      width: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .auth-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; // Centrado horizontal
+    padding: 0;
+    z-index: 10; // Por encima del brillo de fondo
+  }
+
+}
+
+
+

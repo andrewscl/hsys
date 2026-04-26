@@ -1,0 +1,2 @@
+CREATE DATABASE hsys_auth;
+CREATE DATABASE hsys_users;

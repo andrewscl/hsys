@@ -1,4 +1,7 @@
 @use 'base/typography' as * ;
+@use 'components/auth-cards' as * ;
+@use 'components/auth-content' as * ;
+@use 'abstracts/variables' as * ;
 
 // Reset global para eliminar los márgenes por defecto del navegador
 * {
@@ -11,3 +14,4 @@ html, body {
   height: 100%;
   width: 100%;
 }
+

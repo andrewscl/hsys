@@ -1,0 +1,101 @@
+<div class="auth-card auth-card--wide">
+
+  <button class="auth-card__close" (click)="goBack()" aria-label="Volver">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <div class="auth-card__header">
+    <h3>Registro de usuarios</h3>
+  </div>
+
+  <form class="auth-card__form" [formGroup]="registerForm" (ngSubmit)="onCreateAccount()">
+
+    <div class="form-group">
+      <label for="username">Nombre de Usuario</label>
+      <input type="text" id="username" formControlName="username" placeholder="ej: jdoe123"
+      [class.input-error]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+
+      <div class="error-container" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+        <small class="error-text" *ngIf="registerForm.get('username')?.errors?.['required']">El nombre de usuario es obligatorio.</small>
+        <small class="error-text" *ngIf="registerForm.get('username')?.errors?.['minlength']">Mínimo 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="mail">Correo Electrónico</label>
+      <input type="email" id="mail" formControlName="mail" placeholder="nombre@empresa.com"
+      [class.input-error]="registerForm.get('mail')?.invalid && registerForm.get('mail')?.touched">
+
+      <div class="error-container" *ngIf="registerForm.get('mail')?.invalid && registerForm.get('mail')?.touched">
+        <small class="error-text" *ngIf="registerForm.get('mail')?.errors?.['required']">El correo es obligatorio.</small>
+        <small class="error-text" *ngIf="registerForm.get('mail')?.errors?.['email']">Ingresa un formato de correo válido.</small>
+      </div>
+    </div>
+
+    <div class="auth-card__row">
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" formControlName="password" placeholder="••••••••"
+              [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+
+        <div class="error-container" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          <small class="error-text" *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</small>
+          <small class="error-text" *ngIf="registerForm.get('password')?.errors?.['minlength']">Debe tener al menos 8 carácteres.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Teléfono (Opcional)</label>
+        <input type="tel" id="phone" formControlName="phone" placeholder="+56 9 ...">
+      </div>
+    </div>
+
+    <hr class="form-divider">
+
+    <div class="form-group">
+      <label for="companyName">Nombre de la Empresa</label>
+      <input type="text" id="companyName" formControlName="companyName" placeholder="Razón Social S.A."
+              [class.input-error]="registerForm.get('companyName')?.invalid && registerForm.get('companyName')?.touched">
+
+        <div class="error-container" *ngIf="registerForm.get('companyName')?.invalid && registerForm.get('companyName')?.touched">
+          <small class="error-text" *ngIf="registerForm.get('companyName')?.errors?.['required']">El nombre de empresa es obligatorio.</small>
+          <small class="error-text" *ngIf="registerForm.get('companyName')?.errors?.['minlength']">Debe tener al menos 2 carácteres.</small>
+        </div>
+    </div>
+
+    <div class="auth-card__row">
+      <div class="form-group">
+        <label for="taxId">ID Tributario / RUT</label>
+        <input type="text" id="taxId" formControlName="taxId" placeholder="12.345.678-9"
+              [class.input-error]="registerForm.get('taxId')?.invalid && registerForm.get('taxId')?.touched">
+
+        <div class="error-container" *ngIf="registerForm.get('taxId')?.invalid && registerForm.get('taxId')?.touched">
+          <small class="error-text" *ngIf="registerForm.get('taxId')?.errors?.['required']">El Rut de la empresa es obligatorio.</small>
+          <small class="error-text" *ngIf="registerForm.get('taxId')?.errors?.['minlength']">El Rut debe tener 9 carácteres.</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="timezone">Zona Horaria</label>
+        <select id="timezone" formControlName="timezone">
+          <option value="UTC-5">Bogotá / Lima (UTC-5)</option>
+          <option value="UTC-4">Santiago / Caracas (UTC-4)</option>
+          <option value="UTC-3">Buenos Aires (UTC-3)</option>
+          <option value="UTC+1">Madrid (UTC+1)</option>
+        </select>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn-auth"
+      [disabled]="registerForm.invalid || isSubmitting">
+      <span *ngIf="!isSubmitting">Crear Cuenta</span>
+      <span *ngIf="isSubmitting">
+        <i class="fas fa-spinner fa-spin"></i> Procesando...
+      </span>
+    </button>
+
+  </form>
+
+</div>

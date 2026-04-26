@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: hsys-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # Ruta para el servicio de autenticación (publica)
+        - id: auth-service
+          uri: http://hsys-auth:8082
+          predicates:
+            - Path=/api/auth/**
+          filters:
+           - name: AuthenticationFilter
+
+        # Rutas protegidas
+        - id: users-service
+          uri: http://hsys-users:8083
+          predicates:
+            - Path=/api/users/**
+          filters:
+           - name: AuthenticationFilter
+
+        - id: clients-service
+          uri: http://hsys-clients:8084
+          predicates:
+            - Path=/api/clients/**
+          filters:
+           - name: AuthenticationFilter
+
+        - id: billing-service
+          uri: http://hsys-billing:8085
+          predicates:
+            - Path=/api/billing/**
+          filters:
+           - name: AuthenticationFilter
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowedCredentials: true
+
+app:
+  jwt:
+    secret: ${JWT_SECRET} #viene del .env via Docker
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info

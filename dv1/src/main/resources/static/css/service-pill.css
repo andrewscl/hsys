@@ -1,0 +1,37 @@
+.pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.pill__icon-container {
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2d3436;
+  font-size: 1.8rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+.pill__label {
+  color: #2d3436;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+}
+.pill:hover {
+  transform: translateY(-5px);
+}
+.pill:hover .pill__icon-container {
+  background: #00f2ff;
+  color: white;
+  box-shadow: 0 15px 30px rgba(0, 242, 255, 0.3);
+  border-color: transparent;
+}/*# sourceMappingURL=service-pill.css.map */

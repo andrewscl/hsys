@@ -1,0 +1,32 @@
+server:
+  port: 8084
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: clients-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+    url: jdbc:postgresql://db-business:5432/hsys_clients
+    username: ${POSTGRES_HSYSDB_USERNAME}
+    password: ${POSTGRES_HSYSDB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info

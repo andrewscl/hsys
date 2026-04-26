@@ -1,0 +1,28 @@
+<div class="table-responsive">
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario ID</th>
+        <th>Cliente</th>
+        <th>Nombre Cliente</th>
+        <th>Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of dataSource; track item.userId) {
+        <tr>
+          <td>{{ item.userId }}</td>
+          <td>{{ item.clientId }}</td>
+          <td>{{ item.clientName }}</td>
+          <td>
+            <span class="badge">{{ item.clientRole }}</span>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4">No se encontraron registros.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

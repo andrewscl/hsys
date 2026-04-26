@@ -1,0 +1,257 @@
+services:
+
+  rabbitmq:
+      image: rabbitmq:3-management
+      container_name: hsys-rabbitmq
+      ports:
+        - "5672:5672"   # Puerto para que los microservicios envíen datos
+        - "15672:15672" # Puerto para la interfaz web de administración
+      environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+      networks:
+        - hsys-network
+
+# --- SYSTEM SERVICES ---
+  hsys-auth:
+      build:
+        context: ./system/auth-service
+        dockerfile: Dockerfile
+      container_name: hsys-auth
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: 512M
+          reservations:
+            cpus: '0.25'
+            memory: 256M
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db-system:5432/hsys_auth
+        SPRING_DATASOURCE_USERNAME: ${POSTGRES_HSYSDB_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+        JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      ports:
+        - "8082:8082"
+      networks:
+        - hsys-network
+      depends_on:
+        db-system:
+          condition: service_healthy
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+        start_period: 40s
+
+  hsys-users:
+      build:
+        context: ./system/users-service
+        dockerfile: Dockerfile
+      container_name: hsys-users
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: 512M
+          reservations:
+            cpus: '0.25'
+            memory: 256M
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db-system:5432/hsys_users
+        SPRING_DATASOURCE_USERNAME: ${POSTGRES_HSYSDB_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+        SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      ports:
+        - "8083:8083"
+      networks:
+        - hsys-network
+      depends_on:
+        db-system:
+          condition: service_healthy
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+        start_period: 40s
+
+# --- BUSINESS SERVICES ---
+  hsys-clients:
+      build:
+        context: ./business/clients-service # CAMBIO DE RUTA
+        dockerfile: Dockerfile
+      container_name: hsys-clients
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: 512M
+          reservations:
+            cpus: '0.25'
+            memory: 256M
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db-business:5432/hsys_clients
+        SPRING_DATASOURCE_USERNAME: ${POSTGRES_HSYSDB_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+        SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      ports:
+        - "8084:8084"
+      networks:
+        - hsys-network
+      depends_on:
+        db-business:
+          condition: service_healthy
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+        start_period: 40s
+
+  hsys-billing:
+      build:
+        context: ./business/billing-service # CAMBIO DE RUTA
+        dockerfile: Dockerfile
+      container_name: hsys-billing
+      deploy:
+        resources:
+          limits:
+            cpus: '0.5'
+            memory: 512M
+          reservations:
+            cpus: '0.25'
+            memory: 256M
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db-business:5432/hsys_billing
+        SPRING_DATASOURCE_USERNAME: ${POSTGRES_HSYSDB_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+        SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      ports:
+        - "8085:8085"
+      networks:
+        - hsys-network
+      depends_on:
+        db-business:
+          condition: service_healthy
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8085/actuator/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+        start_period: 40s
+
+# --- API GATEWAY ---
+  hsys-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: hsys-gateway
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+        reservations:
+          cpus: '0.25'
+          memory: 256M    
+    environment:
+      JWT_SECRET: ${JWT_SECRET_KEY}
+    ports:
+      - "8080:8080"
+    networks:
+      - hsys-network
+    depends_on:
+      hsys-auth:
+        condition: service_healthy
+      hsys-users:
+        condition: service_healthy
+      hsys-clients:
+        condition: service_healthy
+
+# --- FRONTEND ---
+  hsys-ui:
+    build:
+      #Importante, usa el root como context para copiar infra/nginx/nginx.conf
+      context: .
+      dockerfile: hsys-ui/Dockerfile
+    container_name: hsys-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - hsys-gateway
+    networks:
+      - hsys-network
+
+# --- DB DOMINIO SYSTEM (Auth, Users) ---
+  db-system:
+    image: postgres:16-alpine
+    container_name: hsys-db-system
+    environment:
+      POSTGRES_USER: ${POSTGRES_HSYSDB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+      POSTGRES_DB: hsys_system_main
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra/databases/system/data:/var/lib/postgresql/data
+      # Script para crear DBs: hsys_auth y hsys_users
+      - ./infra/databases/system/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - hsys-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_HSYSDB_USERNAME} -d hsys_system_main"]
+      interval: 5s
+      retries: 5
+
+# --- DB DOMINIO BUSINESS (Clients, Billing) ---
+  db-business:
+    image: postgres:16-alpine
+    container_name: hsys-db-business
+    environment:
+      POSTGRES_USER: ${POSTGRES_HSYSDB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_HSYSDB_PASSWORD}
+      POSTGRES_DB: hsys_business_main
+    ports:
+      - "5433:5432" # Puerto 5433 para evitar conflicto local
+    volumes:
+      - ./infra/databases/business/data:/var/lib/postgresql/data
+      # Script para crear DBs: hsys_clients y hsys_billing
+      - ./infra/databases/business/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - hsys-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_HSYSDB_USERNAME} -d hsys_business_main"]
+      interval: 5s
+      retries: 5
+
+# --- PGADMIN ---
+  hsys-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: hsys-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      #Esta evita que pida contraseña de maestro cada vez (Optional)
+      PGADMINN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      #Apunta a la carpeta infra/databases/pgadmin
+      - ./infra/databases/pgadmin:/var/lib/pgadmin
+    networks:
+      - hsys-network
+    depends_on:
+      - db-system
+      - db-business
+
+# --- NETWORKS AND VOLUMES ---
+networks:
+  hsys-network:
+   driver: bridge
+
+volumes:
+  hsys_pgdata:
+
+

@@ -1,0 +1,50 @@
+server:
+  port: 8082
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: auth-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  datasource:
+      url: jdbc:postgresql://db-system:5432/hsys_auth
+      username: ${POSTGRES_HSYSDB_USERNAME}
+      password: ${POSTGRES_HSYSDB_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+services:
+  users:
+    base-url: http://hsys-users:8083
+  clients:
+    base-url: http://hsys-clients:8084
+
+app:
+  jwt:
+    secret: ${JWT_SECRET_KEY}
+    expiration: 900000 #15 minutos
+    refresh-expiration: 604800000 #7 dias, refresh token
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
