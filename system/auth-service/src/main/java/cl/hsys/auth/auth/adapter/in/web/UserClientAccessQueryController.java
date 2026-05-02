@@ -1,5 +1,6 @@
 package cl.hsys.auth.auth.adapter.in.web;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -25,12 +26,13 @@ public class UserClientAccessQueryController {
 
     //Listar todos (Vista principal de admin)
     @GetMapping
-    public ResponseEntity<Page<UserClientAccess>> findAll (
+    public ResponseEntity<List<UserClientAccess>> findAll (
             @PageableDefault(size = 10, sort = "clientName") Pageable pageable) {
-        return ResponseEntity.ok(queryCase.findAllUserClientAccess(pageable));
+        Page<UserClientAccess> page = queryCase.findAllUserClientAccess(pageable);
+        return ResponseEntity.ok(page.getContent());
     }
 
-    //Listar todos los regsitros de un usuario (para ver el perfil del usuario)
+    //Listar todos los registros de un usuario (para ver el perfil del usuario)
     @GetMapping("/user/{userId}")
     public ResponseEntity<Page<UserClientAccess>> findAllByUserId (
             @PathVariable UUID userId,
@@ -48,6 +50,5 @@ public class UserClientAccessQueryController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
 
 }

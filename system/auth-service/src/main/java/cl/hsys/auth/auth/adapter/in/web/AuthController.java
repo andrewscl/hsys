@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.hsys.auth.auth.application.AuthService;
 import cl.hsys.auth.auth.dto.LoginRequest;
 import cl.hsys.auth.auth.dto.LoginResponse;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req){

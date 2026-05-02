@@ -13,6 +13,7 @@ public class UserClientAccessWebMapper {
     ) {
         return new CreateUserClientAccessCommand(
             event.userId(),
+            event.username(),
             event.clientId(),
             event.businessRole(),
             event.companyName()

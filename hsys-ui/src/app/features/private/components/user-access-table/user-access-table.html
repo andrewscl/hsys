@@ -2,8 +2,7 @@
   <table>
     <thead>
       <tr>
-        <th>Usuario ID</th>
-        <th>Cliente</th>
+        <th>Usuario</th>
         <th>Nombre Cliente</th>
         <th>Rol</th>
       </tr>
@@ -11,11 +10,11 @@
     <tbody>
       @for (item of dataSource; track item.userId) {
         <tr>
-          <td>{{ item.userId }}</td>
+          <td>{{ item.username }}</td>
           <td>{{ item.clientId }}</td>
-          <td>{{ item.clientName }}</td>
+          <td>{{ item.companyName }}</td>
           <td>
-            <span class="badge">{{ item.clientRole }}</span>
+            <span class="badge">{{ item.businessRole }}</span>
           </td>
         </tr>
       } @empty {

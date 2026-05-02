@@ -1,5 +1,7 @@
 package cl.hsys.gateway.util;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 //Este componente se encarga de leer el token
@@ -26,7 +27,7 @@ public class JwtUtils {
     */
     private SecretKey getSigningKey() {
         //toma el string base64 y lo convierte en bytes originales
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

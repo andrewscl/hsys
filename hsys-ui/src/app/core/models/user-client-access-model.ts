@@ -1,7 +1,8 @@
 export interface UserClientAccess {
   id?: string;
   userId: string;
+  username: string;
   clientId: string;
-  clientName: string;
-  clientRole: string;
+  businessRole: string;
+  companyName: string;
 }

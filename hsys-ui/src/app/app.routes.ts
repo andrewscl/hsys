@@ -5,6 +5,8 @@ import { AuthLayout } from './features/auth/layouts/auth-layout/auth-layout';
 import { PublicHome } from './features/public/pages/public-home/public-home';
 import { Login } from './features/auth/components/login/login';
 import { Register } from './features/auth/components/register/register';
+import { PrivateLayout } from './features/private/layout/private-layout/private-layout';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
 
@@ -21,14 +23,17 @@ export const routes: Routes = [
     //Area de administración
     {
         path: 'admin',
-        component: AuthLayout,
+        component: PrivateLayout,
+        canActivate: [authGuard],
         children: [
-            {
-                path: 'user-access',
+            { path: 'dashboard',
+                loadComponent: () => import
+                    ('./features/private/pages/private-dashboard/private-dashboard')
+                    .then(m => m. PrivateDashboardComponent) },
+            { path: 'user-access',
                 loadComponent: () => import
                     ('./features/private/pages/user-access-management/user-access-management')
-                    .then(m => m.UserAccessManagementComponent)
-            }
+                    .then(m => m. UserAccessManagementComponent) }
         ]
     },
 

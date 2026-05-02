@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record CreateUserClientAccessCommand (
     UUID userId,
+    String username,
     UUID clientId,
     String businessRole,
     String companyName

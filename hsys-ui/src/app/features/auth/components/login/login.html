@@ -4,7 +4,8 @@
     <h3>Bienvenido nuevamente</h3>
   </div>
   
-  <app-login-card></app-login-card>
+  <app-login-card [loginForm]="loginForm" 
+      (loginSubmitted)="onLogin()"></app-login-card>
   
   <div class="auth-links">
     <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>

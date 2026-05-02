@@ -30,6 +30,7 @@ public class UserClientAccessCommandService
                 new UserClientAccess(
                     null,
                     command.userId(),
+                    command.username(),
                     command.clientId(),
                     command.businessRole(),
                     command.companyName()

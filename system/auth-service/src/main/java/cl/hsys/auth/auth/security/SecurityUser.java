@@ -38,6 +38,26 @@ public class SecurityUser implements UserDetails {
         return userInternalDto.username();
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Si es false, no deja entrar
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Si es false, cuenta bloqueada
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Si es false, pide cambio de clave
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Si es false, usuario deshabilitado
+    }
+
     public UUID getUserId() {
         return userInternalDto.id();
     }

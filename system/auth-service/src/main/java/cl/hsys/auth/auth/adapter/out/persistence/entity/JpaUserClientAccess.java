@@ -26,6 +26,9 @@ public class JpaUserClientAccess {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "client_id", nullable = false)
     private UUID clientId;
 

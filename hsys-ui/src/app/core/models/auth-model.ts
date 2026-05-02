@@ -18,6 +18,7 @@ export interface LoginResponse {
     refreshToken: string;
     tokenType: string;
     userId: string;
+    clientIds: string[];
     username: string;
     roles: string[];
 }

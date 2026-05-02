@@ -13,6 +13,12 @@ spring:
           uri: http://hsys-auth:8082
           predicates:
             - Path=/api/auth/**
+
+        # Ruta para el servicio de administración (privada)
+        - id: auth-admin
+          uri: http://hsys-auth:8082
+          predicates:
+            - Path=/api/v1/admin/**
           filters:
            - name: AuthenticationFilter
 

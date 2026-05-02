@@ -63,6 +63,9 @@ public class EventRegistrationWorkflow implements RegistrationWorkflow {
             verificationToken
         );
 
+        System.out.println("[EventRegistrationWorkflow] event username: "
+                                + event.username() + " " + req.username());
+
         //publicar en el broker
         rabbitTemplate.convertAndSend("user.exchange", "user.created", event);
 

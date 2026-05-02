@@ -15,6 +15,7 @@ public class UserClientAccessPersistenceMapper {
         return new UserClientAccess(
             jpaUserClientAccess.getId(),
             jpaUserClientAccess.getUserId(),
+            jpaUserClientAccess.getUsername(),
             jpaUserClientAccess.getClientId(),
             jpaUserClientAccess.getClientRole(),
             jpaUserClientAccess.getClientName()
@@ -25,8 +26,10 @@ public class UserClientAccessPersistenceMapper {
         if(userClientAccess == null) {
             return null;
         }
+        System.out.println("username: " + userClientAccess.username());
         return JpaUserClientAccess.builder()
             .userId(userClientAccess.userId())
+            .username(userClientAccess.username())
             .clientId(userClientAccess.clientId())
             .clientRole(userClientAccess.businessRole())
             .clientName(userClientAccess.companyName())

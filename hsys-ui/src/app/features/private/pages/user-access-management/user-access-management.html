@@ -1,5 +1,10 @@
 <div class="management-page">
   <h1>Gestión de Accesos</h1>
 
-  <app-user-access-table [dataSource]="accessList"></app-user-access-table>
+  @if (accessList$ | async; as list) {
+    <app-user-access-table [dataSource]="list"></app-user-access-table>
+  } @else {
+    <p>Cargando registros desde el servidor</p>
+  }
+
 </div>

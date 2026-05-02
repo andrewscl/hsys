@@ -52,7 +52,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("userId", userId.toString())
-                .claim("clientIds", clientIdsStr.stream())
+                .claim("clientIds", clientIdsStr)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
