@@ -1,17 +1,16 @@
 <div class="table-responsive">
-  <table>
+  <table class="hsys-table">
     <thead>
       <tr>
         <th>Usuario</th>
-        <th>Nombre Cliente</th>
-        <th>Rol</th>
+        <th>Cliente</th>
+        <th>Rut</th>
       </tr>
     </thead>
     <tbody>
       @for (item of dataSource; track item.userId) {
         <tr>
           <td>{{ item.username }}</td>
-          <td>{{ item.clientId }}</td>
           <td>{{ item.companyName }}</td>
           <td>
             <span class="badge">{{ item.businessRole }}</span>

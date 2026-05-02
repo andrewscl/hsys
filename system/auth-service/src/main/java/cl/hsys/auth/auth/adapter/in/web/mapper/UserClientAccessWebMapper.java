@@ -9,11 +9,11 @@ import cl.hsys.auth.registration.dto.MembershipCreateEvent;
 public class UserClientAccessWebMapper {
 
     public CreateUserClientAccessCommand toCommand(
-        MembershipCreateEvent event
+        MembershipCreateEvent event, String realUsername
     ) {
         return new CreateUserClientAccessCommand(
             event.userId(),
-            event.username(),
+            realUsername,
             event.clientId(),
             event.businessRole(),
             event.companyName()

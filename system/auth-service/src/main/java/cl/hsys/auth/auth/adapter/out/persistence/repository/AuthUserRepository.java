@@ -13,4 +13,6 @@ public interface AuthUserRepository extends JpaRepository<JpaUser, UUID>{
 
     Optional<JpaUser> findByUsername(String username);
 
+    Optional<JpaUser> findById (UUID id);
+
 }
